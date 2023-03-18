@@ -23,7 +23,6 @@
             android:layout_margin="10dp"
             android:padding="10dp"
             android:background="@color/cgu_orange"
-            android:text="0"
             android:textSize="24pt" />
 
         <LinearLayout
