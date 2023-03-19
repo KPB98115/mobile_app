@@ -18,19 +18,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //bind all button from xml
-        Button btn_0 = (Button) findViewById(R.id.btn_0);
-        Button btn_1 = (Button) findViewById(R.id.btn_1);
-        Button btn_2 = (Button) findViewById(R.id.btn_2);
-        Button btn_3 = (Button) findViewById(R.id.btn_3);
-        Button btn_4 = (Button) findViewById(R.id.btn_4);
-        Button btn_5 = (Button) findViewById(R.id.btn_5);
-        Button btn_6 = (Button) findViewById(R.id.btn_6);
-        Button btn_7 = (Button) findViewById(R.id.btn_7);
-        Button btn_8 = (Button) findViewById(R.id.btn_8);
-        Button btn_9 = (Button) findViewById(R.id.btn_9);
-        Button btn_plus = (Button) findViewById(R.id.btn_plus);
-        Button btn_minus = (Button) findViewById(R.id.btn_minus);
-        Button btn_equal = (Button) findViewById(R.id.btn_equal);
+        Button btn_0 = findViewById(R.id.btn_0);
+        Button btn_1 = findViewById(R.id.btn_1);
+        Button btn_2 = findViewById(R.id.btn_2);
+        Button btn_3 = findViewById(R.id.btn_3);
+        Button btn_4 = findViewById(R.id.btn_4);
+        Button btn_5 = findViewById(R.id.btn_5);
+        Button btn_6 = findViewById(R.id.btn_6);
+        Button btn_7 = findViewById(R.id.btn_7);
+        Button btn_8 = findViewById(R.id.btn_8);
+        Button btn_9 = findViewById(R.id.btn_9);
+        Button btn_plus = findViewById(R.id.btn_plus);
+        Button btn_minus = findViewById(R.id.btn_minus);
+        Button btn_equal = findViewById(R.id.btn_equal);
+        Button btn_clear = findViewById(R.id.btn_clear);
 
         btn_0.setOnClickListener(this);
         btn_1.setOnClickListener(this);
@@ -45,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);
         btn_equal.setOnClickListener(this);
+        btn_clear.setOnClickListener(this);
     }
 
     public void btn_input(View v) {
-        TextView display_view = (TextView) findViewById(R.id.display_view);
+        TextView display_view = findViewById(R.id.display_view);
 
         Button btn = (Button) v;
         String btn_value = btn.getText().toString();
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         else if (v.getId() == R.id.btn_equal) {
-            TextView display_view = (TextView) findViewById(R.id.display_view);
+            TextView display_view = findViewById(R.id.display_view);
             String formula = display_view.getText().toString();
             //do math
             if (!calculator.calculate(formula)) {
@@ -80,8 +82,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             display_view.setText(calculator.result());
             calculator.initialize();
         }
+        else if (v.getId() == R.id.btn_clear) {
+            //empty the textview
+            TextView display_view = findViewById(R.id.display_view);
+            display_view.setText("");
+        }
         else {
-            //numeric button
+            //display the numeric value to textview
             btn_input(v);
         }
     }
@@ -103,21 +110,6 @@ class Calculator {
 
     public void set_operator(String operator) {
         current_operator = operator;
-    }
-
-    public boolean do_math() {
-        if (current_operator.length() == 1 && numeric_stack.length() >= 2) {
-            if (current_operator.equals("+")) {
-                result = numeric_stack.charAt(0) + numeric_stack.charAt(1);
-            }
-            else {
-                result = numeric_stack.charAt(0) - numeric_stack.charAt(1);
-            }
-            current_operator = ""; //initial operator
-            numeric_stack = "";
-            return true;
-        }
-        return false;
     }
 
     public Boolean calculate(String formula) {
@@ -152,21 +144,23 @@ class Calculator {
             //combine the last value from the stack into an operations
             int num = Integer.parseInt(numeric_stack);
             operations.add(num);
-            //initialize the numeric stack
-            numeric_stack = "";
 
             //Calculate the formula
             System.out.println("calculate the formula.");
-            if (current_operator == "+") {
-                result = result + operations.get(0) + operations.get(1);
+            for (int i=0; i<operations.size(); i++) {
+                if (current_operator == "+") {
+                    result += operations.get(i);
+                }
+                else {
+                    System.out.println("result: "+result+","+operations);
+                    if (result == 0) {
+                        result = operations.get(0);
+                        continue;
+                    }
+                    result -= operations.get(i);
+                }
             }
-            else if (current_operator == "-") {
-                result = result + operations.get(0) - operations.get(1);
-            }
-            else {
-                System.out.println("exception result");
-                result = 0;
-            }
+
             //initialize the class property
             operations.clear();
             numeric_stack = "";
