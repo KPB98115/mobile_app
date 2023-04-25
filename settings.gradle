@@ -16,3 +16,5 @@ rootProject.name = "mobile_app"
 include ':app'
 include ':calculator_app'
 include ':check_box_form'
+include ':cinema_ticket'
+include ':hw3'

@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">cinema_ticket</string>
+    <string-array name="city">
+        <item>TPE</item>
+        <item>TAO</item>
+        <item>TAI</item>
+        <item>KAO</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>adult</item>
+        <item>children</item>
+        <item>senior</item>
+    </string-array>
+
+    <string-array name="TPE">
+        <item>豪華影城</item>
+        <item>欣欣秀泰</item>
+        <item>京站威秀</item>
+    </string-array>
+
+    <string-array name="TAO">
+        <item>統領影城</item>
+        <item>新光影城</item>
+        <item>台茂影城</item>
+    </string-array>
+
+    <string-array name="TAI">
+        <item>中港新光</item>
+        <item>站前秀泰</item>
+        <item>日日新</item>
+    </string-array>
+
+    <string-array name="KAO">
+        <item>駁二豪華</item>
+        <item>義大國賓</item>
+        <item>夢時代</item>
+    </string-array>
+</resources>

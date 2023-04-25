@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="../../Library/Android/sdk/platforms/android-33/data/res/layout/simple_spinner_item.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_calculator.xml" value="0.28125" />
@@ -16,6 +17,8 @@
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.28229166666666666" />
         <entry key="calculator_app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="check_box_form/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="cinema_ticket/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="hw3/src/main/res/layout/activity_main.xml" value="0.28229166666666666" />
       </map>
     </option>
   </component>
