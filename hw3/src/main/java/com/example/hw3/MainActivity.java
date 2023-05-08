@@ -2,8 +2,10 @@ package com.example.hw3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,8 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Spinner ddList_building;
     Spinner ddList_show;
     EditText ppl_amount;
-    RadioGroup rbtn_group;
+    RadioGroup ticker_group;
     EditText ticket_number_input;
     EditText datePicker;
     EditText timePicker;
@@ -48,10 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView burger_img;
     ImageView fries_img;
     ImageView coke_img;
-    LinearLayout order;
-    LinearLayout results;
+    TextView orders;
+    TextView results;
     Button submit_btn;
-    TextView date, time, location, show, ticket_amount, ticket_number, meal_order, price;
 
     int show1_price = 800;
     int show2_price = 1000;
@@ -69,37 +69,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ddList_building = findViewById(R.id.ddList_building);
         ddList_show = findViewById(R.id.ddList_show);
         ppl_amount = findViewById(R.id.ppl_amount);
-        ppl_amount.addTextChangedListener(this);
-        rbtn_group.setOnCheckedChangeListener(this);
+        ticker_group = findViewById(R.id.ticker_group);
         ticket_number_input = findViewById(R.id.ticket_number_input);
-        ticket_number_input.addTextChangedListener(this);
         datePicker = findViewById(R.id.dateEdt);
         timePicker = findViewById(R.id.timeEdt);
-        burger.setOnCheckedChangeListener(this);
-        fries.setOnCheckedChangeListener(this);
-        coke.setOnCheckedChangeListener(this);
+        burger = findViewById(R.id.checkBox_burger);
         burger_img = findViewById(R.id.burger_img);
+        fries = findViewById(R.id.checkBox_fries);
         fries_img = findViewById(R.id.fries_img);
+        coke = findViewById(R.id.checkBox_coke);
         coke_img = findViewById(R.id.coke_img);
-        order = findViewById(R.id.order);
+        orders = findViewById(R.id.orders);
         results = findViewById(R.id.results);
         submit_btn = findViewById(R.id.submit_btn);
 
-        date = findViewById(R.id.date);
-        time = findViewById(R.id.time);
-        ticket_number = findViewById(R.id.ticket_number);
-        ticket_amount = findViewById(R.id.ticket_amount);
-        location = findViewById(R.id.location);
-        show = findViewById(R.id.show);
-        meal_order = findViewById(R.id.meal_order);
-        price = findViewById(R.id.price);
+        ppl_amount.addTextChangedListener(this);
+        ticker_group.setOnCheckedChangeListener(this);
+        ticket_number_input.addTextChangedListener(this);
+        datePicker.setOnClickListener(this);
+        timePicker.setOnClickListener(this);
+        burger.setOnCheckedChangeListener(this);
+        fries.setOnCheckedChangeListener(this);
+        coke.setOnCheckedChangeListener(this);
+        submit_btn.setOnClickListener(this);
 
         ddList_city.setOnItemSelectedListener(this);
         ddList_building.setOnItemSelectedListener(this);
+        ddList_show.setOnItemSelectedListener(this);
 
         ArrayAdapter<CharSequence> city_adapter = ArrayAdapter.createFromResource(this,
                 R.array.city, android.R.layout.simple_spinner_item);
-
 
         ArrayAdapter<CharSequence> show2_adapter = ArrayAdapter.createFromResource(this,
                 R.array.performance2, android.R.layout.simple_spinner_item);
@@ -109,52 +108,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.dateEdt:
+                popup_datePicker(view);
+                break;
+            case R.id.timeEdt:
+                popup_timePicker(view);
+                break;
+            case R.id.submit_btn:
+                if (ticket_number_input.getText().toString() == "0") {
+                    Toast.makeText(this, "人數不可為 0", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    popup_comfrimDialog();
+                }
+                break;
+        }
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        switch (view.getId()) {
+        switch (adapterView.getId()) {
             case R.id.ddList_city:
-                String city = ddList_city.getSelectedItem().toString();
-                if (city == "TPE") {
+                if (position == 0) {
                     ArrayAdapter<CharSequence> TPE_building_adapter = ArrayAdapter.createFromResource(this,
                             R.array.TPE, android.R.layout.simple_spinner_item);
                     TPE_building_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     ddList_building.setAdapter(TPE_building_adapter);
-                }
-                else if (city == "TAO") {
+                } else if (position == 1) {
                     ArrayAdapter<CharSequence> TAO_building_adapter = ArrayAdapter.createFromResource(this,
                             R.array.TAO, android.R.layout.simple_spinner_item);
                     TAO_building_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     ddList_building.setAdapter(TAO_building_adapter);
-                }
-                else if (city == "KAO") {
+                } else if (position == 2) {
                     ArrayAdapter<CharSequence> KAO_building_adapter = ArrayAdapter.createFromResource(this,
                             R.array.KAO, android.R.layout.simple_spinner_item);
                     KAO_building_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     ddList_building.setAdapter(KAO_building_adapter);
-            }
-            case R.id.ddList_building:
-                if (!ddList_building.isSelected()) {
-                    return;
                 }
+                break;
+            case R.id.ddList_building:
                 if (ddList_building.getSelectedItemPosition() == 0) {
                     ArrayAdapter<CharSequence> show1_adapter = ArrayAdapter.createFromResource(this,
                             R.array.performance1, android.R.layout.simple_spinner_item);
                     show1_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     ddList_show.setAdapter(show1_adapter);
-                }
-                else if (ddList_building.getSelectedItemPosition() == 1) {
+                } else if (ddList_building.getSelectedItemPosition() == 1) {
                     ArrayAdapter<CharSequence> show2_adapter = ArrayAdapter.createFromResource(this,
                             R.array.performance2, android.R.layout.simple_spinner_item);
                     show2_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     ddList_show.setAdapter(show2_adapter);
                 }
+                break;
             case R.id.ddList_show:
-                String full_location = ddList_city.getSelectedItem().toString() + ddList_city.getSelectedItem().toString();
-                location.setText(full_location);
-                show.setText(ddList_show.getSelectedItem().toString());
+                if (ddList_show.getSelectedItemPosition() == 0) {
+                    total_price = show1_price;
+                } else {
+                    total_price = show2_price;
+                }
+                break;
         }
     }
 
@@ -175,104 +188,137 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void afterTextChanged(Editable editable) {
-        ticket_amount.setText(ticket_amount.getText());
-        ticket_number.setText(ticket_number_input.getText());
+
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        if (meal_order_array.contains(compoundButton.getText().toString())) {
+            meal_order_array.remove(compoundButton.getText().toString());
+        }
+        else {
+            meal_order_array.add(compoundButton.getText().toString());
+        }
+
         if (isChecked) {
-            switch (compoundButton.getId()) {
-                case R.id.yes:
-                    ticket_number_input.setEnabled(false);
-                case R.id.no:
-                    ticket_number_input.setEnabled(true);
-                case R.id.cb_burger:
-                    burger_img.setVisibility(View.VISIBLE);
-                    total_price += burger_price;
-                case R.id.cb_fries:
-                    fries_img.setVisibility(View.VISIBLE);
-                    total_price = fries_price;
-                case R.id.cb_coke:
-                    coke_img.setVisibility(View.VISIBLE);
-                    total_price = coke_price;
+            if (compoundButton.getId() == R.id.checkBox_burger) {
+                burger_img.setVisibility(View.VISIBLE);
+                if (ticker_group.getCheckedRadioButtonId() == R.id.yes) {
+                    int new_meal_price = (int) (burger_price * 0.8);
+                    total_price += new_meal_price;
+                }
+                total_price += burger_price;
+            }
+            else if (compoundButton.getId() == R.id.checkBox_fries) {
+                fries_img.setVisibility(View.VISIBLE);
+                if (ticker_group.getCheckedRadioButtonId() == R.id.yes) {
+                    int new_meal_price = (int) (fries_price * 0.8);
+                    total_price += new_meal_price;
+                }
+                total_price += fries_price;
+            }
+            else {
+                coke_img.setVisibility(View.VISIBLE);
+                if (ticker_group.getCheckedRadioButtonId() == R.id.yes) {
+                    int new_meal_price = (int) (coke_price * 0.8);
+                    total_price += new_meal_price;
+                }
+                total_price += coke_price;
             }
         }
         else {
-            switch (compoundButton.getId()) {
-                case R.id.cb_burger:
-                    burger_img.setVisibility(View.GONE);
-                    meal_order_array.remove(burger.toString());
-                case R.id.cb_fries:
-                    fries_img.setVisibility(View.GONE);
-                    meal_order_array.remove(fries.toString());
-                case R.id.cb_coke:
-                    coke_img.setVisibility(View.GONE);
-                    meal_order_array.remove(coke.toString());
+            if (compoundButton.getId() == R.id.checkBox_burger) {
+                burger_img.setVisibility(View.INVISIBLE);
+                total_price -= burger_price;
+            }
+            else if (compoundButton.getId() == R.id.checkBox_fries) {
+                fries_img.setVisibility(View.INVISIBLE);
+                total_price -= fries_price;
+            }
+            else {
+                coke_img.setVisibility(View.INVISIBLE);
+                total_price -= coke_price;
             }
         }
     }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-
+         switch (checkedId) {
+             case R.id.yes:
+                 ticket_number_input.setEnabled(true);
+                 break;
+             case R.id.no:
+                 ticket_number_input.setEnabled(false);
+                 break;
+         }
     }
 
-    public void datePicker(EditText dateEdt) {
-        // on below line we are getting
-        // the instance of our calendar.
-        final Calendar c = Calendar.getInstance();
+    public void popup_datePicker(View view) {
+        Calendar dCalendar = Calendar.getInstance();
+        int year = dCalendar.get(Calendar.YEAR);
+        int mouth = dCalendar.get(Calendar.MONTH);
+        int day = dCalendar.get(Calendar.DAY_OF_MONTH);
 
-        // on below line we are getting
-        // our day, month and year.
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        // on below line we are creating a variable for date picker dialog.
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                // on below line we are passing context.
-                MainActivity.this,
-                (view, year1, monthOfYear, dayOfMonth) -> {
-                    // on below line we are setting date to our edit text.
-                    dateEdt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
-
-                },
-                // on below line we are passing year,
-                // month and day for selected date in our date picker.
-                year, month, day);
-        // at last we are calling show to
-        // display our date picker dialog.
-        datePickerDialog.show();
+        new DatePickerDialog(view.getContext(), (view1, year1, month, dayOfMonth) -> {
+            String date = year1 + "/" + (month + 1) + "/" + dayOfMonth;
+            datePicker.setText(date);
+        }, year, mouth, day).show();
     }
 
-    public void timePicker(EditText timeEdt) {
-        final Calendar currentTime = Calendar.getInstance();
-        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = currentTime.get(Calendar.MINUTE);
+    public void popup_timePicker(View view) {
+        Calendar tCalendar = Calendar.getInstance();
+        int hourOfDay = tCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = tCalendar.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
-                (timePicker, selectedHour, selectedMinute) -> {
-                    timeEdt.setText(hour + ":" + minute + ((hour > 12) ? "am" : "pm"));
-        }, hour, minute, false);
-        timePickerDialog.show();
+        new TimePickerDialog(view.getContext(), (view1, hourOfDay1, minute1) -> {
+            String time = hourOfDay1 + ":" + minute1;
+            timePicker.setText(time);
+        }, hourOfDay, minute, true).show();
     }
 
-    public void write_order(String date, String time, String location, String show, int amount,
-                            String ticket_numebr, String meal_order, int price) {
-        TextView order = new TextView(this);
-        order.setText(
-                "日期：" + date +
-                "時間：" + time +
-                "地點：" + location +
-                "表演場次：" + show +
-                "購票數量：" + amount + "張" +
-                "票卷編號：" + ticket_numebr +
-                "餐點：" + meal_order +
-                "總額：" + price + "元"
-        );
+    public void popup_comfrimDialog() {
+        String address = ddList_city.getSelectedItem().toString() + ", " + ddList_building.getSelectedItem().toString();
+        String showName = ddList_show.getSelectedItem().toString();
+        String amount = ppl_amount.getText().toString();
+        String ticket_number = "無";
+        if (ticker_group.getCheckedRadioButtonId() == R.id.yes) {
+            ticket_number = ticket_number_input.getText().toString();
+            total_price = (int) (total_price * 0.8);
+        }
+        String selectedDate = datePicker.getText().toString();
+        String selectedTime = timePicker.getText().toString();
+        String meal = "";
+        for (String food: meal_order_array) {
+            meal += food+", ";
+        }
 
-        results.addView(order);
+        String result = "地點：" + address
+                + "\n劇場：" + showName
+                + "\n人數：" + amount
+                + "\n優惠票卷號碼：" + ticket_number
+                + "\n日期及時間：" + selectedDate + ", " + selectedTime
+                + "\n餐點：" + meal
+                + "\n總金額：" + total_price;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle("確定訂購以下項目嗎？");
+        builder.setMessage(
+                "劇場：" + showName
+                + "人數：" + amount
+                + "日期及時間：" + selectedDate + ", " + selectedTime
+                + "餐點：" + meal
+                );
+        builder.setNegativeButton("確認", (dialog, which) -> {
+            results.setText(result);
+            Toast.makeText(getApplicationContext(), "已成功訂購!", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+        builder.setPositiveButton("取消", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        builder.create().show();
     }
 }
 

@@ -62,7 +62,7 @@
                 android:layout_marginStart="30dp"
                 android:ems="10"
                 android:inputType="number"
-                android:hint="1" />
+                android:hint="0" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rbtn_group"
+                android:id="@+id/ticker_group"
                 android:orientation="horizontal"
                 android:gravity="center" >
 
@@ -120,7 +120,7 @@
                 android:id="@+id/ticket_number_input"
                 android:ems="15"
                 android:hint="輸入號碼"
-                android:enabled="true" />
+                android:enabled="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -173,21 +173,21 @@
             android:orientation="horizontal" >
 
             <CheckBox
-                android:id="@+id/cb_burger"
+                android:id="@+id/checkBox_burger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="漢堡包" />
 
             <CheckBox
-                android:id="@+id/cb_fries"
+                android:id="@+id/checkBox_fries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="薯條" />
 
             <CheckBox
-                android:id="@+id/cb_coke"
+                android:id="@+id/checkBox_coke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -224,60 +224,13 @@
                 app:srcCompat="@drawable/coke" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/order">
+            android:orientation="vertical"
+            android:id="@+id/orders" >
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/ticket_amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/ticket_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/meal_order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </LinearLayout>
+        </TextView>
 
         <Button
             android:layout_width="match_parent"
@@ -285,13 +238,14 @@
             android:id="@+id/submit_btn"
             android:text="訂票" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/results" >
+            android:id="@+id/results"
+            android:text="" >
 
-        </LinearLayout>
+        </TextView>
 
     </LinearLayout>
 
