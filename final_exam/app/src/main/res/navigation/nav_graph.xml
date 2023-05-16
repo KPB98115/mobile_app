@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/booking">
+    <fragment
+        android:id="@+id/about_us"
+        android:name="com.example.final_exam.About_us"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/restaurent_query"
+        android:name="com.example.final_exam.Restaurant_query"
+        android:label="fragment_restaurent_query"
+        tools:layout="@layout/fragment_restaurent_query" />
+    <fragment
+        android:id="@+id/booking"
+        android:name="com.example.final_exam.Booking"
+        android:label="fragment_booking"
+        tools:layout="@layout/fragment_booking" />
+</navigation>

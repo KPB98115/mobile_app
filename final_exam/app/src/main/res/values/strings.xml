@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">final_exam</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="station">
+        <item>請選擇...</item>
+        <item>南港</item>
+        <item>臺北</item>
+        <item>板橋</item>
+        <item>桃園</item>
+        <item>新竹</item>
+        <item>苗栗</item>
+        <item>臺中</item>
+        <item>彰化</item>
+        <item>雲林</item>
+        <item>嘉義</item>
+        <item>臺南</item>
+        <item>左營</item>
+    </string-array>
+
+    <string-array name="number">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+</resources>

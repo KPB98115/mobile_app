@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_bar_ticket"
+        android:title="立即訂票" />
+    <item
+        android:id="@+id/nav_bar_restaurant"
+        android:title="查尋餐廳" />
+    <item
+        android:id="@+id/nav_bar_aboutUS"
+        android:title="關於我們" />
+</menu>
